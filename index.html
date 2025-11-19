@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Jogo de Perguntas em Python (PyScript)</title>
+    
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 6px;
+            min-height: 50px; /* Para melhor visualização */
+        }
+        .questao {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="text"] {
+            padding: 8px;
+            width: 80%;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>JOGO DE PERGUNTAS (PyScript)</h1>
+    <p>Preencha os campos abaixo e clique em <b>Verificar Respostas</b> para ver sua pontuação.</p>
+
+    <div class="questao">
+        <label for="nome_jogador">Qual é o seu nome?</label><br>
+        <input type="text" id="nome_jogador" placeholder="Seu nome" required>
+    </div>
+
+    <div class="questao">
+        <label for="resposta_matematico">1. Qual foi o matemático que desenvolveu a fórmula $a^2 = b^2 + c^2$?</label><br>
+        <input type="text" id="resposta_matematico" placeholder="Sua resposta" required>
+    </div>
+
+    <button id="verifica_btn" py-onClick="verificar_respostas">Verificar Respostas</button>
+
+    <h2>Resultado:</h2>
+    <div id="output">Aguardando suas respostas...</div>
+
+    <py-script>
+from pyscript import Element
+
+# A função é chamada quando o botão é clicado
+def verificar_respostas():
+    # 1. Obter os valores dos campos HTML
+    nome = Element("nome_jogador").value
+    resposta1 = Element("resposta_matematico").value
+    
+    pontos = 0
+    saida = ""
+    
+    saida += f"Oi {nome}!\n\n"
+    
+    # 2. Verificar a Resposta 1
+    saida += "--- Pergunta 1 ---\n"
+    if resposta1.lower() == "pitágoras" or resposta1.lower() == "pitagoras":
+        saida += f"Parabéns, você acertou! 🤓\n"
+        pontos += 1
+    else:
+        saida += f"Que pena, você errou. 🤔 (A resposta correta era Pitágoras)\n"
+    
+    # 3. Mostrar a Pontuação Final
+    saida += f"\n==================\n"
+    saida += f"Pontuação final: {pontos}\n"
+    saida += f"=================="
+    
+    # 4. Mostrar tudo no elemento de saída
+    Element("output").write(saida, append=False)
+
+    </py-script>
+</body>
+</html>
